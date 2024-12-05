@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <color name="topAppBarColor">#FFD9E2</color>
+    <color name="toolBarTitleTextColor">#3A071D</color>
+    <color name="categoryBackgraundColor">#9EEFFD</color>
+    <color name="categoryElementColor">#001F24</color>
+
+</resources>
