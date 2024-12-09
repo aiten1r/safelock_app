@@ -7,5 +7,9 @@
     <color name="toolBarTitleTextColor">#3A071D</color>
     <color name="categoryBackgraundColor">#9EEFFD</color>
     <color name="categoryElementColor">#001F24</color>
+    <color name="bacgraundFab">#FFB6C7</color>
+    <color name="iconFab">#3A071D</color>
+    <color name="backraundColorFilter">#D9D9D9</color>
+    <color name="etHintColor">#514347</color>
 
 </resources>
