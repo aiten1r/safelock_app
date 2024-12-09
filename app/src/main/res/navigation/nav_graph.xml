@@ -34,4 +34,13 @@
     <argument
         android:name="categoryTitle"
         app:argType="string"/>
+    <argument
+        android:name="itemTitle"
+        app:argType="string"/>
+    <argument
+        android:name="itemPassword"
+        app:argType="string"/>
+    <argument
+        android:name="itemDescription"
+        app:argType="string"/>
 </navigation>

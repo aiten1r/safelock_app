@@ -5,6 +5,7 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 import com.example.safelock.data.room.entity.PasswordEntity
 import com.example.safelock.domain.data.Password
 
@@ -21,5 +22,8 @@ interface PasswordDao {
 
     @Query ("SELECT * FROM password_table WHERE categoryId = :categoryId ORDER BY id ASC")
     fun getPasswordsByCategory(categoryId:Int):LiveData<List<PasswordEntity>>
+
+    @Update
+    suspend fun updatePassword(passwordEntity: PasswordEntity)
 
 }

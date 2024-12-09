@@ -1,20 +1,22 @@
 package com.example.safelock.presentation.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.safelock.R
-import com.example.safelock.data.repositry.CategoryRepository
 import com.example.safelock.domain.data.Category
 import com.example.safelock.domain.data.Password
 import com.example.safelock.domain.usecase.categoryies.GetCategoriesUseCase
 import com.example.safelock.domain.usecase.categoryies.InitializeCategoriesUseCase
-import com.example.safelock.domain.usecase.categoryies.UpdateCategoryCountUseCase
+import com.example.safelock.domain.usecase.categoryies.categorycount.DecrementCategoryCountUseCase
+import com.example.safelock.domain.usecase.categoryies.categorycount.IncrementCategoryCountUseCase
 import com.example.safelock.domain.usecase.passwords.AddPasswordUseCase
 import com.example.safelock.domain.usecase.passwords.DeletePasswordUseCase
 import com.example.safelock.domain.usecase.passwords.GetPasswordsUseCase
+import com.example.safelock.domain.usecase.passwords.UpdatePasswordUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -23,10 +25,12 @@ import javax.inject.Inject
 class SharedViewModel @Inject constructor(
     private val getCategoriesUseCase: GetCategoriesUseCase,
     private val initializeCategoriesUseCase: InitializeCategoriesUseCase,
-    private val updateCategoryCountUseCase: UpdateCategoryCountUseCase,
     private val getPasswordsUseCase: GetPasswordsUseCase,
     private val addPasswordUseCase: AddPasswordUseCase,
     private val deletePasswordUseCase: DeletePasswordUseCase,
+    private val incrementCategoryCountUseCase: IncrementCategoryCountUseCase,
+    private val decrementCategoryCountUseCase: DecrementCategoryCountUseCase,
+    private val updatePasswordUseCase: UpdatePasswordUseCase
 ) : ViewModel() {
 
     private val _categories = MutableLiveData<List<Category>>()
@@ -37,20 +41,27 @@ class SharedViewModel @Inject constructor(
     private val _passwords = MediatorLiveData<List<Password>>()
     val passwords: LiveData<List<Password>> get() = _passwords
 
+    private val _togglePasswordVisibility = MutableLiveData<Unit>()
+    val togglePasswordVisibility: LiveData<Unit> get() = _togglePasswordVisibility
+
+    fun togglePassword() {
+        _togglePasswordVisibility.value = Unit
+    }
+
     init {
         _passwords.addSource(_categoryId) { categoryId ->
             loadPasswords(categoryId)
         }
     }
 
-    fun loadCategorys(){
+    fun loadCategorys() {
         viewModelScope.launch {
             _categories.value = getCategoriesUseCase()
         }
 
     }
 
-    fun setCategoryId(categoryId: Int){
+    fun setCategoryId(categoryId: Int) {
         _categoryId.value = categoryId
     }
 
@@ -63,15 +74,27 @@ class SharedViewModel @Inject constructor(
         }
     }
 
-    fun addPassword(password: Password) {
+    fun addPassword(password: Password, categoryId: Int) {
         viewModelScope.launch {
             addPasswordUseCase(password)
+            incrementCategoryCountUseCase(password.categoryId)
+            refreshPasswords(categoryId)
         }
     }
 
     fun deletePassword(password: Password) {
         viewModelScope.launch {
             deletePasswordUseCase(password)
+            decrementCategoryCountUseCase(password.categoryId)
+            refreshCategories()
+        }
+    }
+
+    fun updatePassword(password: Password) {
+        viewModelScope.launch{
+            Log.d("SharedViewModel", "Обновление пароля с id: ${password.id}")
+            updatePasswordUseCase(password)
+            refreshPasswords(password.categoryId)
         }
     }
 
@@ -92,14 +115,15 @@ class SharedViewModel @Inject constructor(
         }
     }
 
-    fun updateCategoryCount(categoryId: Int) {
-        viewModelScope.launch {
-            val category = _categories.value?.find { it.id == categoryId }
-            if (category != null) {
-                val updateCategory = category.copy(count = category.count + 1)
-                updateCategoryCountUseCase(updateCategory)
-                _categories.value = getCategoriesUseCase()
-            }
+    private suspend fun refreshPasswords(categoryId: Int){
+        val passwordsLiveData = getPasswordsUseCase(categoryId)
+        _passwords.addSource(passwordsLiveData){passwords->
+            _passwords.value = passwords
         }
+    }
+
+    private suspend fun refreshCategories() {
+        val updatedCategories = getCategoriesUseCase()
+        _categories.value = updatedCategories
     }
 }

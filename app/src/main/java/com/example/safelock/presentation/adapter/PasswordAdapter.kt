@@ -5,21 +5,30 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import androidx.room.PrimaryKey
 import com.example.safelock.databinding.DateilsItemBinding
 import com.example.safelock.domain.data.Password
 
 class PasswordAdapter(
-    private val onItemLongClick: (Password) -> Unit
+    private val onItemLongClick: (Password) -> Unit,
+    private val onItemClick: (Password) -> Unit
 ) :
     ListAdapter<Password, PasswordAdapter.PasswordViewHolder>(PasswordDiffUtilCallbeck()) {
     class PasswordViewHolder(private val binding: DateilsItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(password: Password, onItemLongClick: (Password) -> Unit) {
+        fun bind(
+            password: Password,
+            onItemLongClick: (Password) -> Unit,
+            onItemClick: (Password) -> Unit
+        ) {
             binding.tvItemName.text = password.title
 
             binding.root.setOnLongClickListener {
                 onItemLongClick(password)
                 true
+            }
+            binding.root.setOnClickListener {
+                onItemClick(password)
             }
         }
 
@@ -31,7 +40,7 @@ class PasswordAdapter(
     }
 
     override fun onBindViewHolder(holder: PasswordViewHolder, position: Int) {
-        holder.bind(getItem(position), onItemLongClick)
+        holder.bind(getItem(position), onItemLongClick, onItemClick)
     }
 }
 

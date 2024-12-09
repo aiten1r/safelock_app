@@ -61,6 +61,8 @@ dependencies {
     //сoroutines
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1")
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
+    //rvanimator
+    implementation ("jp.wasabeef:recyclerview-animators:4.0.2")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

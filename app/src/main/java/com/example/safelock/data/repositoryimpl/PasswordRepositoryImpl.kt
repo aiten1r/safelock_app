@@ -39,6 +39,12 @@ class PasswordRepositoryImpl(private val passwordDao: PasswordDao) : PasswordRep
         }
     }
 
+    override suspend fun updatePssword(password: Password) {
+        withContext(Dispatchers.IO){
+            passwordDao.updatePassword(password.toEntity())
+        }
+    }
+
 
     // Мапперы для преоброзавние entity в data class для слоя domain
     fun PasswordEntity.toDomain(): Password {
