@@ -1,7 +1,6 @@
 package com.example.safelock.presentation.fragments
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -15,7 +14,6 @@ import com.example.safelock.databinding.FragmentDetailsBinding
 import com.example.safelock.domain.data.Password
 import com.example.safelock.presentation.adapter.PasswordAdapter
 import com.example.safelock.presentation.viewmodel.SharedViewModel
-import com.example.safelock.presentation.viewmodel.SortType
 import dagger.hilt.android.AndroidEntryPoint
 import jp.wasabeef.recyclerview.animators.FadeInAnimator
 

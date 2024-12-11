@@ -22,10 +22,6 @@ import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-enum class SortType {
-    ALPHABETICAL, NEWEST, OLDEST
-}
-
 @HiltViewModel
 class SharedViewModel @Inject constructor(
     private val getCategoriesUseCase: GetCategoriesUseCase,

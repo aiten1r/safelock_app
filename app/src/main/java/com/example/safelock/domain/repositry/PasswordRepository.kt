@@ -1,4 +1,4 @@
-package com.example.safelock.data.repositry
+package com.example.safelock.domain.repositry
 
 import androidx.lifecycle.LiveData
 import com.example.safelock.domain.data.Password

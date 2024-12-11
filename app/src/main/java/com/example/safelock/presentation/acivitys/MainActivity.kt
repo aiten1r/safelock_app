@@ -3,17 +3,17 @@ package com.example.safelock.presentation.acivitys
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.safelock.R
+import com.example.safelock.data.sharedprefences.SharedPreferencesHelper
 import com.example.safelock.databinding.ActivityMainBinding
-import com.example.safelock.presentation.fragments.DetailsFragment
 import com.example.safelock.presentation.viewmodel.SharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -23,6 +23,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
     private val sharedViewModel: SharedViewModel by viewModels()
+    private lateinit var sharedPreferencesHelper: SharedPreferencesHelper
+
 
     private var isPasswordVissible = false
 
@@ -30,6 +32,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        sharedPreferencesHelper = SharedPreferencesHelper(this)
 
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
@@ -41,9 +45,16 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
 
+        if (sharedPreferencesHelper.isFirstLaunch()) {
+            navController.navigate(R.id.createProfile)
+        } else {
+            navController.navigate(R.id.loginFramgent)
+        }
+
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.mainFragment -> {
+                    binding.topAppBar.visibility = View.VISIBLE
                     binding.topAppBar.isTitleCentered = true
                     binding.topAppBar.navigationIcon =
                             //ContextCompat делает код совместимым с разными версиями андроид
@@ -55,6 +66,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.detailsFragment -> {
+                    binding.topAppBar.visibility = View.VISIBLE
                     binding.topAppBar.isTitleCentered = true
                     binding.topAppBar.navigationIcon =
                         ContextCompat.getDrawable(this, R.drawable.arrowback_icon)
@@ -66,10 +78,15 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.addPassword -> {
+                    binding.topAppBar.visibility = View.VISIBLE
                     binding.topAppBar.navigationIcon = null
                     binding.topAppBar.menu.clear()
                     menuInflater.inflate(R.menu.passwordadd_menu, binding.topAppBar.menu)
                     binding.topAppBar.isTitleCentered = false
+                }
+
+                R.id.createProfile, R.id.loginFramgent -> {
+                    binding.topAppBar.visibility = View.GONE
                 }
             }
         }
@@ -88,9 +105,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateIcon(item: MenuItem) {
-        if (isPasswordVissible){
+        if (isPasswordVissible) {
             item.setIcon(R.drawable.showpassword_icon)
-        }else{
+        } else {
             item.setIcon(R.drawable.passwordcheck_icon)
         }
     }

@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import com.example.safelock.data.room.dao.PasswordDao
 import com.example.safelock.data.room.entity.PasswordEntity
-import com.example.safelock.data.repositry.PasswordRepository
+import com.example.safelock.domain.repositry.PasswordRepository
 import com.example.safelock.domain.data.Password
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

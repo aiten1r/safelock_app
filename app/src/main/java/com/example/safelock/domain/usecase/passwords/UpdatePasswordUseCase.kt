@@ -1,6 +1,6 @@
 package com.example.safelock.domain.usecase.passwords
 
-import com.example.safelock.data.repositry.PasswordRepository
+import com.example.safelock.domain.repositry.PasswordRepository
 import com.example.safelock.domain.data.Password
 import javax.inject.Inject
 
