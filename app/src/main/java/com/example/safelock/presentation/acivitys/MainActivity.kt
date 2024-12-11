@@ -13,6 +13,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.safelock.R
 import com.example.safelock.databinding.ActivityMainBinding
+import com.example.safelock.presentation.fragments.DetailsFragment
 import com.example.safelock.presentation.viewmodel.SharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -44,12 +45,6 @@ class MainActivity : AppCompatActivity() {
             when (destination.id) {
                 R.id.mainFragment -> {
                     binding.topAppBar.isTitleCentered = true
-                    binding.topAppBar.setBackgroundColor(
-                        ContextCompat.getColor(
-                            this,
-                            R.color.topAppBarColor
-                        )
-                    )
                     binding.topAppBar.navigationIcon =
                             //ContextCompat делает код совместимым с разными версиями андроид
                         ContextCompat.getDrawable(this, R.drawable.naviagation_drawer)
@@ -64,13 +59,7 @@ class MainActivity : AppCompatActivity() {
                     binding.topAppBar.navigationIcon =
                         ContextCompat.getDrawable(this, R.drawable.arrowback_icon)
                     binding.topAppBar.menu.clear()
-                    menuInflater.inflate(R.menu.topappbar_menu, binding.topAppBar.menu)
-                    binding.topAppBar.setBackgroundColor(
-                        ContextCompat.getColor(
-                            this,
-                            R.color.topAppBarColor
-                        )
-                    )
+                    binding.topAppBar.isTitleCentered = false
                     binding.topAppBar.setNavigationOnClickListener {
                         navController.navigateUp()
                     }
@@ -80,12 +69,6 @@ class MainActivity : AppCompatActivity() {
                     binding.topAppBar.navigationIcon = null
                     binding.topAppBar.menu.clear()
                     menuInflater.inflate(R.menu.passwordadd_menu, binding.topAppBar.menu)
-                    binding.topAppBar.setBackgroundColor(
-                        ContextCompat.getColor(
-                            this,
-                            R.color.topAppBarColor
-                        )
-                    )
                     binding.topAppBar.isTitleCentered = false
                 }
             }

@@ -17,10 +17,11 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainFragment : Fragment() {
 
-    private var _binding: FragmentMainBinding? = null //присвоение _binding view и говорим что макет может быть null
+    private var _binding: FragmentMainBinding? =
+        null //присвоение _binding view и говорим что макет может быть null
     private val binding get() = _binding!! // получаем значение с _binding и говорим что он не равен null !!
     private lateinit var adapter: CategoryAdapter
-    val sharedViewModel : SharedViewModel by activityViewModels()
+    val sharedViewModel: SharedViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,19 +34,20 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-       adapter = CategoryAdapter { category ->
-           val bundle = Bundle().apply {
-               putString("categoryTitle",category.title)
-               putInt("categoryId", category.id)
-           }
-            findNavController().navigate(R.id.action_mainFragment_to_detailsFragment,bundle)
+        adapter = CategoryAdapter { category ->
+            val bundle = Bundle().apply {
+                putString("categoryTitle", category.title)
+                putInt("categoryId", category.id)
+            }
+            findNavController().navigate(R.id.action_mainFragment_to_detailsFragment, bundle)
         }
         binding.rvCategory.adapter = adapter
 
+        sharedViewModel.clearPassword()
         sharedViewModel.loadCategorys()
         observeViewModel()
 
-        sharedViewModel.categories.observe(viewLifecycleOwner){ updateCategories->
+        sharedViewModel.categories.observe(viewLifecycleOwner) { updateCategories ->
             (binding.rvCategory.adapter as CategoryAdapter).submitList(updateCategories)
         }
 

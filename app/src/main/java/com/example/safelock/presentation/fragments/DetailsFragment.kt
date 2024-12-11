@@ -15,6 +15,7 @@ import com.example.safelock.databinding.FragmentDetailsBinding
 import com.example.safelock.domain.data.Password
 import com.example.safelock.presentation.adapter.PasswordAdapter
 import com.example.safelock.presentation.viewmodel.SharedViewModel
+import com.example.safelock.presentation.viewmodel.SortType
 import dagger.hilt.android.AndroidEntryPoint
 import jp.wasabeef.recyclerview.animators.FadeInAnimator
 
@@ -38,25 +39,25 @@ class DetailsFragment : Fragment() {
         val categoryId = arguments?.getInt("categoryId") ?: return
         val categoryTitle = arguments?.getString("categoryTitle")
 
+        sharedViewModel.setCategoryId(categoryId)
+
         val adapter = PasswordAdapter(onItemLongClick = { password ->
             // Удаление элемента по долгому нажатию
             showDeleteConfirmationDialog(password)
         }, onItemClick = { password ->
             val bundle = Bundle().apply {
-                putInt("idKey",password.id)
-                putString("passwordTitle",categoryTitle)
+                putInt("idKey", password.id)
+                putString("passwordTitle", categoryTitle)
                 putString("titleKey", password.title)
                 putString("passwordKey", password.password)
                 putString("descriptionKey", password.description)
-                putInt("categoryId",categoryId)
+                putInt("categoryId", categoryId)
             }
             findNavController().navigate(R.id.action_detailsFragment_to_addPassword, bundle)
         })
 
         binding.rvPassword.adapter = adapter
         binding.rvPassword.itemAnimator = FadeInAnimator()
-
-        sharedViewModel.setCategoryId(categoryId)
 
         sharedViewModel.passwords.observe(viewLifecycleOwner) { passwords ->
             adapter.submitList(passwords)
@@ -75,6 +76,8 @@ class DetailsFragment : Fragment() {
 
     }
 
+
+
     private fun showDeleteConfirmationDialog(password: Password) {
         AlertDialog.Builder(requireContext())
             .setTitle("Удалить пароль?")
@@ -91,5 +94,4 @@ class DetailsFragment : Fragment() {
         _binding = null
         super.onDestroyView()
     }
-
 }

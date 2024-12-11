@@ -18,8 +18,13 @@ import com.example.safelock.domain.usecase.passwords.DeletePasswordUseCase
 import com.example.safelock.domain.usecase.passwords.GetPasswordsUseCase
 import com.example.safelock.domain.usecase.passwords.UpdatePasswordUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
+enum class SortType {
+    ALPHABETICAL, NEWEST, OLDEST
+}
 
 @HiltViewModel
 class SharedViewModel @Inject constructor(
@@ -40,20 +45,21 @@ class SharedViewModel @Inject constructor(
 
     private val _passwords = MediatorLiveData<List<Password>>()
     val passwords: LiveData<List<Password>> get() = _passwords
+    private var currentPasswordSource: LiveData<List<Password>>? = null
 
     private val _togglePasswordVisibility = MutableLiveData<Unit>()
     val togglePasswordVisibility: LiveData<Unit> get() = _togglePasswordVisibility
+
+    //очищает список паролей установив пустой спискок
+    fun clearPassword() {
+        _passwords.value = emptyList()
+    }
 
     fun togglePassword() {
         _togglePasswordVisibility.value = Unit
     }
 
-    init {
-        _passwords.addSource(_categoryId) { categoryId ->
-            loadPasswords(categoryId)
-        }
-    }
-
+    //звгружает все категорий из базы данных через getCategoriesUseCase()
     fun loadCategorys() {
         viewModelScope.launch {
             _categories.value = getCategoriesUseCase()
@@ -62,42 +68,36 @@ class SharedViewModel @Inject constructor(
     }
 
     fun setCategoryId(categoryId: Int) {
+        Log.d("SharedViewModel", "setCategoryId called with: $categoryId")
         _categoryId.value = categoryId
-    }
-
-    private fun loadPasswords(categoryId: Int) {
-        viewModelScope.launch {
-            val passwordsLiveData = getPasswordsUseCase(categoryId)
-            _passwords.addSource(passwordsLiveData) { passwords ->
-                _passwords.value = passwords
-            }
-        }
     }
 
     fun addPassword(password: Password, categoryId: Int) {
         viewModelScope.launch {
-            addPasswordUseCase(password)
-            incrementCategoryCountUseCase(password.categoryId)
-            refreshPasswords(categoryId)
+            addPasswordUseCase(password) //добавляет новый пароль в базу данных
+            incrementCategoryCountUseCase(password.categoryId) //увеличивает счетчик в категорий
         }
     }
 
     fun deletePassword(password: Password) {
         viewModelScope.launch {
-            deletePasswordUseCase(password)
-            decrementCategoryCountUseCase(password.categoryId)
-            refreshCategories()
+            deletePasswordUseCase(password)//удаляет пароль из базы двнных
+            decrementCategoryCountUseCase(password.categoryId)//уменьшает счетчки в категорий
         }
     }
 
     fun updatePassword(password: Password) {
-        viewModelScope.launch{
-            Log.d("SharedViewModel", "Обновление пароля с id: ${password.id}")
-            updatePasswordUseCase(password)
-            refreshPasswords(password.categoryId)
+        viewModelScope.launch {
+            updatePasswordUseCase(password)// обновляет данные сществуещего пароля
         }
     }
 
+    init {
+        _passwords.addSource(_categoryId) { categoryId ->
+            loadPasswords(categoryId)
+            Log.d("DetailsFragment", "CategoryId in DetailsFragment: $categoryId")
+        }
+    }
 
     init {
         viewModelScope.launch {
@@ -115,15 +115,18 @@ class SharedViewModel @Inject constructor(
         }
     }
 
-    private suspend fun refreshPasswords(categoryId: Int){
-        val passwordsLiveData = getPasswordsUseCase(categoryId)
-        _passwords.addSource(passwordsLiveData){passwords->
-            _passwords.value = passwords
+    private fun loadPasswords(categoryId: Int) {
+        Log.d("SharedViewModel", "Loading passwords for categoryId: $categoryId")
+        viewModelScope.launch {
+            val passwordsLiveData = getPasswordsUseCase(categoryId)
+            _passwords.apply {
+                currentPasswordSource?.let { removeSource(it) }
+                currentPasswordSource = passwordsLiveData
+                addSource(passwordsLiveData) { passwords ->
+                    value = passwords
+                    Log.d("SharedViewModel", "Loaded passwords for categoryId: $categoryId")
+                }
+            }
         }
-    }
-
-    private suspend fun refreshCategories() {
-        val updatedCategories = getCategoriesUseCase()
-        _categories.value = updatedCategories
     }
 }

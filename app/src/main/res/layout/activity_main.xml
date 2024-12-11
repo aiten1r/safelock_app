@@ -22,6 +22,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@drawable/naviagation_drawer"
+        app:menu="@menu/topappbar_menu"
         app:title="Safe Lock"
         app:titleCentered="true"/>
 
