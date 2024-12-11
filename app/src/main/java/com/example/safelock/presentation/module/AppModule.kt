@@ -9,9 +9,10 @@ import com.example.safelock.data.repositoryimpl.CategoryRepositoryImpl
 import com.example.safelock.data.room.appdatabase.AppDataBase
 import com.example.safelock.data.room.dao.PasswordDao
 import com.example.safelock.data.repositoryimpl.PasswordRepositoryImpl
-import com.example.safelock.data.repositry.CategoryRepository
-import com.example.safelock.data.repositry.PasswordRepository
+import com.example.safelock.domain.repositry.CategoryRepository
+import com.example.safelock.domain.repositry.PasswordRepository
 import com.example.safelock.data.room.dao.CategoryDao
+import com.example.safelock.data.room.dao.UserDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -44,6 +45,23 @@ object AppModule {
         }
     }
 
+    val MIGRATION_3_4 = object : Migration(3, 4) {
+        override fun migrate(database: SupportSQLiteDatabase) {
+            // Создаем таблицу userData
+            database.execSQL(
+                """
+            CREATE TABLE IF NOT EXISTS userData (
+                id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                iv BLOB NOT NULL,
+                encryptedPassword BLOB NOT NULL
+            )
+            """.trimIndent()
+            )
+        }
+    }
+
+
+
 
     @Provides
     @Singleton
@@ -52,7 +70,7 @@ object AppModule {
             context,
             AppDataBase::class.java,
             "password_database"
-        ).addMigrations(MIGRATION_1_2, MIGRATION_2_3)
+        ).addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4)
             .build()
     }
 
@@ -61,6 +79,11 @@ object AppModule {
 
     @Provides
     fun provideCategoryDao(dataBase: AppDataBase):CategoryDao = dataBase.categoryDao()
+
+    @Provides
+    fun provideUserDao(dataBase: AppDataBase):UserDao = dataBase.userDao()
+
+
 
 
 }

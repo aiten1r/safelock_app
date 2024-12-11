@@ -11,5 +11,6 @@
     <color name="iconFab">#3A071D</color>
     <color name="backraundColorFilter">#D9D9D9</color>
     <color name="etHintColor">#514347</color>
+    <color name="deleteColor">#BA1A1A</color>
 
 </resources>

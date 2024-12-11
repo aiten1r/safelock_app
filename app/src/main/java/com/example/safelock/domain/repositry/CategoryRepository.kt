@@ -1,4 +1,4 @@
-package com.example.safelock.data.repositry
+package com.example.safelock.domain.repositry
 
 import com.example.safelock.domain.data.Category
 

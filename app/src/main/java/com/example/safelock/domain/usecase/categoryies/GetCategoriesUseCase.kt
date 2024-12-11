@@ -1,6 +1,6 @@
 package com.example.safelock.domain.usecase.categoryies
 
-import com.example.safelock.data.repositry.CategoryRepository
+import com.example.safelock.domain.repositry.CategoryRepository
 import com.example.safelock.domain.data.Category
 import javax.inject.Inject
 

@@ -1,7 +1,7 @@
 package com.example.safelock.data.repositoryimpl
 
 import com.example.safelock.R
-import com.example.safelock.data.repositry.CategoryRepository
+import com.example.safelock.domain.repositry.CategoryRepository
 import com.example.safelock.data.room.dao.CategoryDao
 import com.example.safelock.data.room.entity.toDomainModel
 import com.example.safelock.data.room.entity.toEntity

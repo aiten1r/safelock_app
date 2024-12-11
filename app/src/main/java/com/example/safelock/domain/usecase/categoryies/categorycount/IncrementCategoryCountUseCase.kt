@@ -1,6 +1,6 @@
 package com.example.safelock.domain.usecase.categoryies.categorycount
 
-import com.example.safelock.data.repositry.CategoryRepository
+import com.example.safelock.domain.repositry.CategoryRepository
 import javax.inject.Inject
 
 class IncrementCategoryCountUseCase @Inject constructor(

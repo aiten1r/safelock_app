@@ -43,4 +43,22 @@
     <argument
         android:name="itemDescription"
         app:argType="string"/>
+    <fragment
+        android:id="@+id/createProfile"
+        android:name="com.example.safelock.presentation.fragments.registration.CreateProfile"
+        android:label="fragment_create_profile"
+        tools:layout="@layout/fragment_create_profile" >
+        <action
+            android:id="@+id/action_createProfile_to_loginFramgent"
+            app:destination="@id/loginFramgent" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFramgent"
+        android:name="com.example.safelock.presentation.fragments.registration.LoginFramgent"
+        android:label="fragment_login_framgent"
+        tools:layout="@layout/fragment_login_framgent" >
+        <action
+            android:id="@+id/action_loginFramgent_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
 </navigation>

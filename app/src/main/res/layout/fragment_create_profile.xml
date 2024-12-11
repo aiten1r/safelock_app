@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    tools:context=".presentation.fragments.registration.CreateProfile">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Safe Lock"
+        android:textSize="22sp"
+        android:textColor="@color/toolBarTitleTextColor"
+        android:gravity="center"
+        android:layout_marginTop="13dp"
+       />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Создание профиля"
+        android:textSize="16sp"
+        android:textColor="@color/toolBarTitleTextColor"
+        android:gravity="center"/>
+
+    <EditText
+        android:id="@+id/ed_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/addpasswordelement_backgraund"
+        android:hint="Пароль"
+        android:textColorHint="@color/etHintColor"
+        android:layout_marginTop="7dp"
+        android:padding="17dp"
+        android:layout_marginStart="18dp"
+        android:layout_marginEnd="18dp"/>
+
+    <EditText
+        android:id="@+id/ed_reapetPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/addpasswordelement_backgraund"
+        android:hint="Подтверждение пароля"
+        android:textColorHint="@color/etHintColor"
+        android:layout_marginTop="7dp"
+        android:padding="17dp"
+        android:layout_marginStart="18dp"
+        android:layout_marginEnd="18dp"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+       >
+
+        <TextView
+            android:id="@+id/tv_sendToEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="35dp"
+            android:layout_marginTop="22dp"
+            android:text="Отправить на e-mail"
+            android:textColor="@color/toolBarTitleTextColor"
+            android:textSize="22sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <CheckBox
+            android:id="@+id/cb_isSendToEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="34dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_sendToEmail"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tv_sendToEmail" />
+
+        <EditText
+            android:id="@+id/ed_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="18dp"
+            android:layout_marginEnd="18dp"
+            android:background="@drawable/addpasswordelement_backgraund"
+            android:hint="E-mail"
+            android:padding="17dp"
+            android:visibility="gone"
+            android:textColorHint="@color/etHintColor"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_sendToEmail" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/importantly"
+        android:textSize="14sp"
+        android:textColor="@color/toolBarTitleTextColor"
+        android:lineSpacingExtra="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="69dp"
+        android:layout_marginEnd="69dp"
+        android:layout_gravity="center"
+        android:gravity="center"/>
+
+    <Button
+        android:id="@+id/btn_ok"
+        android:layout_width="150dp"
+        android:layout_height="54dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="34dp"
+        android:backgroundTint="@color/topAppBarColor"
+        android:text="Готово"
+        android:textColor="@color/toolBarTitleTextColor"/>
+
+
+
+
+
+</LinearLayout>
