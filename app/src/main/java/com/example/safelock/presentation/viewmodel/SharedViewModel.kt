@@ -13,6 +13,7 @@ import com.example.safelock.domain.usecase.categoryies.GetCategoriesUseCase
 import com.example.safelock.domain.usecase.categoryies.InitializeCategoriesUseCase
 import com.example.safelock.domain.usecase.categoryies.categorycount.DecrementCategoryCountUseCase
 import com.example.safelock.domain.usecase.categoryies.categorycount.IncrementCategoryCountUseCase
+import com.example.safelock.domain.usecase.categoryies.categorycount.ResetAllCategoryCountsUseCase
 import com.example.safelock.domain.usecase.passwords.AddPasswordUseCase
 import com.example.safelock.domain.usecase.passwords.DeleteAllPAsswordsUseCase
 import com.example.safelock.domain.usecase.passwords.DeletePasswordUseCase
@@ -35,7 +36,8 @@ class SharedViewModel @Inject constructor(
     private val decrementCategoryCountUseCase: DecrementCategoryCountUseCase,
     private val updatePasswordUseCase: UpdatePasswordUseCase,
     private val deletAllPAsswords: DeleteAllPAsswordsUseCase,
-    private val changePasswordUseCase: ChangePasswordUseCase
+    private val changePasswordUseCase: ChangePasswordUseCase,
+    private val resetAllCategoryUseCase: ResetAllCategoryCountsUseCase
 ) : ViewModel() {
 
     private val _categories = MutableLiveData<List<Category>>()
@@ -54,6 +56,7 @@ class SharedViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 deletAllPAsswords()
+                resetAllCategoryUseCase()
             }catch (e:Exception){
                 Log.e("SharedViewModel", "Ошибка удаления паролей: ${e.message}")
             }
@@ -74,7 +77,11 @@ class SharedViewModel @Inject constructor(
         viewModelScope.launch {
             _categories.value = getCategoriesUseCase()
         }
+    }
 
+    fun allpasswordsLenth() :Int?{
+        val passwordsSize = _passwords.value?.size
+        return passwordsSize
     }
 
     fun setCategoryId(categoryId: Int) {
