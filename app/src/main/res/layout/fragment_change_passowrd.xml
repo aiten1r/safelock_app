@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/white"
+    tools:context=".presentation.fragments.ChangePassowrd">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Safe Lock"
+        android:textSize="22sp"
+        android:textColor="@color/toolBarTitleTextColor"
+        android:gravity="center"
+        android:layout_marginTop="13dp"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Измение пароля"
+        android:textSize="16sp"
+        android:textColor="@color/toolBarTitleTextColor"
+        android:gravity="center"/>
+
+    <EditText
+        android:id="@+id/ed_oldPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/addpasswordelement_backgraund"
+        android:hint="Старый пароль"
+        android:maxLength="20"
+        android:singleLine="true"
+        android:textColorHint="@color/etHintColor"
+        android:layout_marginTop="7dp"
+        android:padding="17dp"
+        android:layout_marginStart="18dp"
+        android:layout_marginEnd="18dp"/>
+
+    <EditText
+        android:id="@+id/ed_newPasswrd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/addpasswordelement_backgraund"
+        android:hint="Новый пароль"
+        android:inputType="textPassword"
+        android:textColorHint="@color/etHintColor"
+        android:maxLength="20"
+        android:singleLine="true"
+        android:layout_marginTop="7dp"
+        android:padding="17dp"
+        android:layout_marginStart="18dp"
+        android:layout_marginEnd="18dp"/>
+    <Button
+        android:id="@+id/btn_change"
+        android:layout_width="150dp"
+        android:layout_height="54dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="34dp"
+        android:backgroundTint="@color/topAppBarColor"
+        android:text="Изменить"
+        android:textColor="@color/toolBarTitleTextColor"/>
+
+</LinearLayout>

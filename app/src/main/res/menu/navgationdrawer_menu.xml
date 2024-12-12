@@ -2,11 +2,6 @@
 <menu xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/mainwindowItem"
-        android:icon="@drawable/maindrawer_icon"
-        android:title="Главная"
-        android:checkable="true"/>
-    <item
         android:id="@+id/exportemailItem"
         android:icon="@drawable/sendemaildrawer_icon"
         android:title="Экспорт на e-mail"

@@ -1,4 +1,4 @@
-package com.example.safelock.util
+package com.example.safelock.data.util
 
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties

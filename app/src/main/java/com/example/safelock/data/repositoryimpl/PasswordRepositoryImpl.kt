@@ -45,6 +45,10 @@ class PasswordRepositoryImpl(private val passwordDao: PasswordDao) : PasswordRep
         }
     }
 
+    override suspend fun deletAllPasswords() {
+        passwordDao.deletAll()
+    }
+
 
     // Мапперы для преоброзавние entity в data class для слоя domain
     fun PasswordEntity.toDomain(): Password {

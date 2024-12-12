@@ -26,4 +26,7 @@ interface PasswordDao {
     @Update
     suspend fun updatePassword(passwordEntity: PasswordEntity)
 
+    @Query("DELETE FROM password_table")
+    suspend fun deletAll()
+
 }

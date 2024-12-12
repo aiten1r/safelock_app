@@ -20,4 +20,13 @@ class UserRepositoryImpl @Inject constructor(
         val userEntity = userDao.getUser()
         return userEntity?.toDomain()
     }
+
+    override suspend fun updatePassword(iv: ByteArray, encryptedPassword: ByteArray) {
+        val user = userDao.getUser()
+        if (user != null){
+            val updateUser = user.copy(iv = iv, encryptedPassword = encryptedPassword)
+            userDao.updateUser(updateUser)
+        }
+    }
+
 }

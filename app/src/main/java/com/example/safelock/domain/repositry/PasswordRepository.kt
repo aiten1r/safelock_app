@@ -9,5 +9,6 @@ interface PasswordRepository {
     suspend fun getPasswordsByCategory(categoryId: Int):LiveData<List<Password>>
     suspend fun deletePassword(password: Password)
     suspend fun updatePssword(password: Password)
+    suspend fun deletAllPasswords()
 
 }

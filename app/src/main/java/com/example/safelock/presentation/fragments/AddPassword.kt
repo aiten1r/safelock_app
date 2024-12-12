@@ -62,6 +62,15 @@ class AddPassword : Fragment() {
             val password = binding.edPassword.text.toString()
             val description = binding.edDescription.text.toString()
 
+            if (title.isEmpty()) {
+                Toast.makeText(
+                    requireContext(),
+                    "Название не может быть пустым",
+                    Toast.LENGTH_SHORT
+                ).show()
+                return@setOnClickListener
+            }
+
             if (itemId != null && itemId != 0) {
                 val updatedPassword = Password(
                     id = itemId,

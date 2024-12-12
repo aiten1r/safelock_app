@@ -1,7 +1,7 @@
 package com.example.safelock.domain.usecase.users
 
 import com.example.safelock.domain.repositry.UserRepository
-import com.example.safelock.util.CryptoUtil
+import com.example.safelock.data.util.CryptoUtil
 import javax.inject.Inject
 
 class CheckPasswordUseCase @Inject constructor(

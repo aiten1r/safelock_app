@@ -27,6 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="135dp"
         android:src="@drawable/closed_icon"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
@@ -37,6 +38,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="135dp"
         android:src="@drawable/open_icon"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
