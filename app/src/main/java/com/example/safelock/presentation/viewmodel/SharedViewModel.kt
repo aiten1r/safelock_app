@@ -14,9 +14,11 @@ import com.example.safelock.domain.usecase.categoryies.InitializeCategoriesUseCa
 import com.example.safelock.domain.usecase.categoryies.categorycount.DecrementCategoryCountUseCase
 import com.example.safelock.domain.usecase.categoryies.categorycount.IncrementCategoryCountUseCase
 import com.example.safelock.domain.usecase.passwords.AddPasswordUseCase
+import com.example.safelock.domain.usecase.passwords.DeleteAllPAsswordsUseCase
 import com.example.safelock.domain.usecase.passwords.DeletePasswordUseCase
 import com.example.safelock.domain.usecase.passwords.GetPasswordsUseCase
 import com.example.safelock.domain.usecase.passwords.UpdatePasswordUseCase
+import com.example.safelock.domain.usecase.users.ChangePasswordUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.launch
@@ -31,7 +33,9 @@ class SharedViewModel @Inject constructor(
     private val deletePasswordUseCase: DeletePasswordUseCase,
     private val incrementCategoryCountUseCase: IncrementCategoryCountUseCase,
     private val decrementCategoryCountUseCase: DecrementCategoryCountUseCase,
-    private val updatePasswordUseCase: UpdatePasswordUseCase
+    private val updatePasswordUseCase: UpdatePasswordUseCase,
+    private val deletAllPAsswords: DeleteAllPAsswordsUseCase,
+    private val changePasswordUseCase: ChangePasswordUseCase
 ) : ViewModel() {
 
     private val _categories = MutableLiveData<List<Category>>()
@@ -45,6 +49,16 @@ class SharedViewModel @Inject constructor(
 
     private val _togglePasswordVisibility = MutableLiveData<Unit>()
     val togglePasswordVisibility: LiveData<Unit> get() = _togglePasswordVisibility
+
+    fun deletAllPasswords(){
+        viewModelScope.launch {
+            try {
+                deletAllPAsswords()
+            }catch (e:Exception){
+                Log.e("SharedViewModel", "Ошибка удаления паролей: ${e.message}")
+            }
+        }
+    }
 
     //очищает список паролей установив пустой спискок
     fun clearPassword() {
@@ -86,6 +100,9 @@ class SharedViewModel @Inject constructor(
         viewModelScope.launch {
             updatePasswordUseCase(password)// обновляет данные сществуещего пароля
         }
+    }
+    suspend fun changePassword(oldPassword:String,newPassword:String):Boolean{
+        return changePasswordUseCase.execute(oldPassword, newPassword)
     }
 
     init {

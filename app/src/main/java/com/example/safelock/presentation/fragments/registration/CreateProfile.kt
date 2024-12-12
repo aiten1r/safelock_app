@@ -2,12 +2,17 @@ package com.example.safelock.presentation.fragments.registration
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.Log
+import android.util.Patterns
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.viewModels
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.safelock.R
@@ -22,7 +27,7 @@ class CreateProfile : Fragment() {
     private var _binding: FragmentCreateProfileBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: RegistrationViewModel by viewModels()
+    private val viewModel: RegistrationViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,6 +40,48 @@ class CreateProfile : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.edPassword.addTextChangedListener(object:TextWatcher{
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                val password = p0.toString().trim()
+                if (password.length < 6 ){
+                    binding.edPassword.error = "Пароль должен быть больше 6 символов"
+                }else{
+                    binding.edPassword.error = null
+                }
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+        })
+
+        binding.edEmail.addTextChangedListener(object:TextWatcher{
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                val email = p0.toString().trim()
+                if (isValiEmail(email)){
+                    binding.edEmail.error = null
+                    binding.edEmail.background = ContextCompat.getDrawable(requireContext(),R.drawable.valid_edbackgraound)
+                }else{
+                    binding.edEmail.error = "Не коректный email"
+                    binding.edEmail.background = ContextCompat.getDrawable(requireContext(),R.drawable.invalid_backgraunds)
+                }
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+        })
+
         binding.cbIsSendToEmail.setOnCheckedChangeListener { _, isChacked ->
             binding.edEmail.visibility = if (isChacked) View.VISIBLE else View.GONE
         }
@@ -46,9 +93,15 @@ class CreateProfile : Fragment() {
             val email = binding.edEmail.text.toString()
             val sendToEmail = binding.cbIsSendToEmail.isChecked
 
+
             if (password.isEmpty() || confirmPassword.isEmpty()) {
                 Toast.makeText(requireContext(), "Поля не могут быть пустыми", Toast.LENGTH_SHORT)
                     .show()
+                return@setOnClickListener
+            }
+
+            if (password.length <6){
+                Toast.makeText(requireContext(), "Пароль введен не верно", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -63,6 +116,7 @@ class CreateProfile : Fragment() {
             }
 
 
+
             viewModel.registerUser(password, confirmPassword)
 
             if (sendToEmail) {
@@ -72,6 +126,10 @@ class CreateProfile : Fragment() {
             observeUiState(sharedPreferencesHelper)
         }
 
+    }
+
+    private fun isValiEmail(email: String): Boolean {
+        return Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
 
     private fun observeUiState(sharedPreferencesHelper: SharedPreferencesHelper) {

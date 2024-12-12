@@ -61,4 +61,18 @@
             android:id="@+id/action_loginFramgent_to_mainFragment"
             app:destination="@id/mainFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/settings"
+        android:name="com.example.safelock.presentation.fragments.Settings"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" >
+        <action
+            android:id="@+id/action_settings_to_changePassowrd"
+            app:destination="@id/changePassowrd" />
+    </fragment>
+    <fragment
+        android:id="@+id/changePassowrd"
+        android:name="com.example.safelock.presentation.fragments.ChangePassowrd"
+        android:label="fragment_change_passowrd"
+        tools:layout="@layout/fragment_change_passowrd" />
 </navigation>

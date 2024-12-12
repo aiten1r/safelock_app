@@ -1,11 +1,13 @@
 package com.example.safelock.presentation.viewmodel
 
+import android.util.Log
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.safelock.domain.data.User
 import com.example.safelock.domain.usecase.users.CheckPasswordUseCase
 import com.example.safelock.domain.usecase.users.SaveUserUseCase
-import com.example.safelock.util.CryptoUtil
+import com.example.safelock.data.util.CryptoUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -15,7 +17,8 @@ import javax.inject.Inject
 @HiltViewModel
 class RegistrationViewModel @Inject constructor(
     private val saveUserUseCase: SaveUserUseCase,
-    private val checkPasswordUseCase: CheckPasswordUseCase
+    private val checkPasswordUseCase: CheckPasswordUseCase,
+    private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
     // Состояние для управления UI
     private val _uiState = MutableStateFlow<String>("")
@@ -40,6 +43,7 @@ class RegistrationViewModel @Inject constructor(
 
                 // Сохранение пользователя
                 saveUserUseCase(iv = iv, encryptedPassword = encryptedPassword)
+                savedStateHandle["password"] = password
                 _uiState.value = "Профиль создан!"
             } catch (e: Exception) {
                 _uiState.value = "Ошибка при сохранении пользователя: ${e.message}"
@@ -65,5 +69,9 @@ class RegistrationViewModel @Inject constructor(
                 _uiState.value = "Ошибка при входе: ${e.message}"
             }
         }
+    }
+
+    fun getSavedPassword(): String? {
+        return savedStateHandle["password"]
     }
 }

@@ -37,23 +37,40 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/addpasswordelement_backgraund"
+        android:showDividers="middle"
         android:layout_marginStart="14dp"
         android:layout_marginEnd="14dp"
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/tv_numberKayboard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Числовая клавиатура"
             android:padding="20dp"
+            android:background="@drawable/rippleronded_backgrounds"
+            android:clickable="true"
+            android:focusable="true"
             android:textColor="@color/toolBarTitleTextColor"
             android:textSize="18sp" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="@color/grey"/>
+
+
         <TextView
+            android:id="@+id/tv_settingsPasswords"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="20dp"
-            android:text="Настройки пароля"
+            android:background="@drawable/rippleronded_backgrounds"
+            android:clickable="true"
+            android:focusable="true"
+            android:text="Изменение пароля"
             android:textColor="@color/toolBarTitleTextColor"
             android:textSize="18sp" />
 
@@ -78,9 +95,13 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/tv_chatDeveloper"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Написать разработчику"
+            android:background="@drawable/rippleronded_backgrounds"
+            android:clickable="true"
+            android:focusable="true"
             android:padding="20dp"
             android:textColor="@color/toolBarTitleTextColor"
             android:textSize="18sp" />
@@ -105,9 +126,13 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/tv_deletData"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Удалить данные"
+            android:background="@drawable/rippleronded_backgrounds"
+            android:clickable="true"
+            android:focusable="true"
             android:padding="20dp"
             android:textColor="@color/deleteColor"
             android:textSize="18sp" />
