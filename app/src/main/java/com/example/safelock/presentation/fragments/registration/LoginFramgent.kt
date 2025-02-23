@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -25,6 +26,17 @@ class LoginFramgent : Fragment() {
 
     private val viewModel: RegistrationViewModel by viewModels()
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        requireActivity().onBackPressedDispatcher.addCallback(this,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    requireActivity().finishAffinity()
+                }
+            })
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -37,12 +49,13 @@ class LoginFramgent : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         observeUiState()
 
-        val sharedPreferences = requireContext().getSharedPreferences("AppPreferences",Context.MODE_PRIVATE)
+        val sharedPreferences =
+            requireContext().getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
         val isNumericKeyboardEnabled = sharedPreferences.getBoolean("numericKeyboard", false)
 
-        binding.edPassword.inputType = if (isNumericKeyboardEnabled){
+        binding.edPassword.inputType = if (isNumericKeyboardEnabled) {
             InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_VARIATION_PASSWORD // Числовая клавиатура с скрытием ввода
-        }else{
+        } else {
             InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD // Текстовая клавиатура с скрытием ввода
         }
 

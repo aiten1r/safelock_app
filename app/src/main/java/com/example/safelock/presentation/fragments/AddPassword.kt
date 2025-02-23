@@ -45,7 +45,6 @@ class AddPassword : Fragment() {
         val itemId = arguments?.getInt("idKey")
         val passwordTitle = arguments?.getString("passwordTitle")
         val categoryId = arguments?.getInt("categoryId") ?: 0
-        Log.d("AddPassword", "Полученный categoryId: $categoryId")
         val itemTitle = arguments?.getString("titleKey")
         val itemPassword = arguments?.getString("passwordKey")
         val itemDesrciption = arguments?.getString("descriptionKey")
