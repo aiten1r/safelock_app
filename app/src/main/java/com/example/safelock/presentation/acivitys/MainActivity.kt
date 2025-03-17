@@ -49,10 +49,10 @@ class MainActivity : AppCompatActivity() {
 
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                if (navController.currentDestination?.id == R.id.mainFragment) {
-                    finishAffinity()
-                } else {
-                    navController.navigateUp()
+                when(navController.currentDestination?.id){
+                    R.id.mainFragment -> finishAffinity()
+                    R.id.loginFramgent -> finishAffinity()
+                    else -> navController.navigateUp()
                 }
             }
         })
